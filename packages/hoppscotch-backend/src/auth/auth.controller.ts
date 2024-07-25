@@ -25,10 +25,12 @@ import { GithubSSOGuard } from './guards/github-sso.guard';
 import { MicrosoftSSOGuard } from './guards/microsoft-sso-.guard';
 import { ThrottlerBehindProxyGuard } from 'src/guards/throttler-behind-proxy.guard';
 import { SkipThrottle } from '@nestjs/throttler';
+import { OidcSSOGuard } from './guards/oidc.guard';
 import { AUTH_PROVIDER_NOT_SPECIFIED } from 'src/errors';
 import { ConfigService } from '@nestjs/config';
 import { throwHTTPErr } from 'src/utils';
 import { UserLastLoginInterceptor } from 'src/interceptors/user-last-login.interceptor';
+
 
 @UseGuards(ThrottlerBehindProxyGuard)
 @Controller({ path: 'auth', version: '1' })
@@ -123,6 +125,31 @@ export class AuthController {
       req.authInfo.state.redirect_uri,
     );
   }
+
+  /**
+   ** Route to initiate SSO auth via OIDC
+   */
+   @Get('oidc')
+   @UseGuards(OidcSSOGuard)
+   async oidcAuth(@Request() req) {}
+ 
+   /**
+    ** Callback URL for OIDC SSO
+    * @see https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow#how-it-works
+    */
+   @Get('oidc/callback')
+   @SkipThrottle()
+   @UseGuards(OidcSSOGuard)
+   async oidcAuthRedirect(@Request() req, @Res() res) {
+     const authTokens = await this.authService.generateAuthTokens(req.user.uid);
+     if (E.isLeft(authTokens)) throwHTTPErr(authTokens.left);
+     authCookieHandler(
+       res,
+       authTokens.right,
+       true,
+       req.authInfo.state.redirect_uri,
+     );
+   }
 
   /**
    ** Route to initiate SSO auth via Github

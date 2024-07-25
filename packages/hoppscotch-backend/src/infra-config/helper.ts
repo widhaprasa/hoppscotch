@@ -33,6 +33,16 @@ const AuthProviderConfigurations = {
     InfraConfigEnum.MICROSOFT_SCOPE,
     InfraConfigEnum.MICROSOFT_TENANT,
   ],
+  [AuthProvider.OIDC]: [
+    InfraConfigEnum.OIDC_CLIENT_ID,
+    InfraConfigEnum.OIDC_CLIENT_SECRET,
+    InfraConfigEnum.OIDC_CALLBACK_URL,
+    InfraConfigEnum.OIDC_SCOPE,
+    InfraConfigEnum.OIDC_ISSUER,
+    InfraConfigEnum.OIDC_AUTH_URL,
+    InfraConfigEnum.OIDC_TOKEN_URL,
+    InfraConfigEnum.OIDC_USERINFO_URL,
+  ],
   [AuthProvider.EMAIL]: !!process.env.MAILER_USE_CUSTOM_CONFIGS
     ? [
         InfraConfigEnum.MAILER_SMTP_HOST,
@@ -173,6 +183,38 @@ export async function getDefaultInfraConfigs(): Promise<
     {
       name: InfraConfigEnum.MICROSOFT_TENANT,
       value: process.env.MICROSOFT_TENANT,
+    },
+    {
+      name: InfraConfigEnum.OIDC_CLIENT_ID,
+      value: process.env.OIDC_CLIENT_ID,
+    },
+    {
+      name: InfraConfigEnum.OIDC_CLIENT_SECRET,
+      value: process.env.OIDC_CLIENT_SECRET,
+    },
+    {
+      name: InfraConfigEnum.OIDC_CALLBACK_URL,
+      value: process.env.OIDC_CALLBACK_URL,
+    },
+    {
+      name: InfraConfigEnum.OIDC_SCOPE,
+      value: process.env.OIDC_SCOPE,
+    },
+    {
+      name: InfraConfigEnum.OIDC_ISSUER,
+      value: process.env.OIDC_ISSUER,
+    },
+    {
+      name: InfraConfigEnum.OIDC_AUTH_URL,
+      value: process.env.OIDC_AUTH_URL,
+    },
+    {
+      name: InfraConfigEnum.OIDC_TOKEN_URL,
+      value: process.env.OIDC_TOKEN_URL,
+    },
+    {
+      name: InfraConfigEnum.OIDC_USERINFO_URL,
+      value: process.env.OIDC_USERINFO_URL,
     },
     {
       name: InfraConfigEnum.VITE_ALLOWED_AUTH_PROVIDERS,

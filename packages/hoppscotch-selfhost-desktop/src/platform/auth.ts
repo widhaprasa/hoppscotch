@@ -40,6 +40,10 @@ async function signInUserWithGoogleFB() {
   await open(`${import.meta.env.VITE_BACKEND_API_URL}/auth/google?redirect_uri=desktop`);
 }
 
+async function signInUserWithOidcFB() {
+  window.location.href = `${import.meta.env.VITE_BACKEND_API_URL}/auth/oidc`
+}
+
 async function signInUserWithMicrosoftFB() {
   await open(`${import.meta.env.VITE_BACKEND_API_URL}/auth/microsoft?redirect_uri=desktop`);
 }
@@ -318,6 +322,9 @@ export const def: AuthPlatformDef = {
   },
   async signInUserWithGoogle() {
     await signInUserWithGoogleFB()
+  },
+  async signInUserWithOidc() {
+    await signInUserWithOidcFB()
   },
   async signInUserWithGithub() {
     await signInUserWithGithubFB()
